@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -65,4 +66,25 @@ func (t *Text) SpecCharRemover(mask string) {
 	for i, word := range t.Text {
 		t.Text[i] = re.ReplaceAllString(word, "")
 	}
+}
+
+func (t *Text) UniCounter() (c int, u []string) {
+	text := &Text{
+		Text: t.Text,
+	}
+
+	text.SpecCharRemover("all")
+	// TODO: Reducing all words to lowercase
+
+	for _, word := range t.Text {
+		i := sort.Search(len(u), func(i int) bool { return word <= u[i] })
+		if i < len(u) && u[i] == word {
+			continue
+		} else {
+			u = append(u, word)
+			c++
+		}
+	}
+
+	return
 }

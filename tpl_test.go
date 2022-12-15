@@ -91,6 +91,10 @@ func TestUniCounter(t *testing.T) {
 	count, unique := text.UniCounter()
 
 	if count != len(unique) {
-		t.Fatal("Error in calculating the quantity")
+		t.Fatal("Error in calculating the quantity.")
+	}
+
+	if len(text.Text) == len(unique) {
+		t.Fatal("Processing error!")
 	}
 }
