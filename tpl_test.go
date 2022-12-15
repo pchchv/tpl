@@ -88,6 +88,8 @@ func TestUniCounter(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	tt := text.Text
+
 	count, unique := text.UniCounter()
 
 	if count != len(unique) {
@@ -96,6 +98,10 @@ func TestUniCounter(t *testing.T) {
 
 	if len(text.Text) == len(unique) {
 		t.Fatal("Processing error!")
+	}
+
+	if len(tt) != len(text.Text) || tt[0] != text.Text[0] {
+		t.Fatal("Processing error! Changing the main text.")
 	}
 }
 
