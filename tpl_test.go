@@ -98,3 +98,16 @@ func TestUniCounter(t *testing.T) {
 		t.Fatal("Processing error!")
 	}
 }
+
+func TestToLowercase(t *testing.T) {
+	text, err := NewFromFile(testFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	text.ToLowercase()
+
+	if text.Text[0] == "Lorem" {
+		t.Fatal("The word reductions didn't work.")
+	}
+}
