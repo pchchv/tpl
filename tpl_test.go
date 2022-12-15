@@ -65,6 +65,8 @@ func TestModifier(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	textLength := len(text.Text)
+
 	text.Modifier()
 
 	for _, word := range text.Text {
@@ -73,5 +75,9 @@ func TestModifier(t *testing.T) {
 				t.Fatal("The string contains a punctuation symbol")
 			}
 		}
+	}
+
+	if textLength != len(text.Text) {
+		t.Fatal("The words are lost")
 	}
 }
