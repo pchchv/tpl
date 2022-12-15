@@ -45,8 +45,23 @@ func NewFromFile(file string) (*Text, error) {
 }
 
 // Removes special characters from the text.
-func (t *Text) SpecCharRemover() {
-	re := regexp.MustCompile(`[[:punct:]]`)
+func (t *Text) SpecCharRemover(mask string) {
+	var re *regexp.Regexp
+	switch mask {
+	case "all":
+		re = regexp.MustCompile(`[[:punct:]]`)
+	case "quotes":
+		// TODO: “”‘«»„“
+	case "exclamation_mark":
+		// TODO !
+	case "question_mark":
+		// TODO ?
+	case "plus":
+		// TODO +
+	case "minus":
+		// TODO -
+	}
+
 	for i, word := range t.Text {
 		t.Text[i] = re.ReplaceAllString(word, "")
 	}

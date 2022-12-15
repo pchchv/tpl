@@ -67,7 +67,7 @@ func TestSpecCharRemover(t *testing.T) {
 
 	textLength := len(text.Text)
 
-	text.SpecCharRemover()
+	text.SpecCharRemover("all")
 
 	for _, word := range text.Text {
 		for _, symbol := range punctuation {
