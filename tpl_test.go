@@ -81,3 +81,16 @@ func TestSpecCharRemover(t *testing.T) {
 		t.Fatal("The words are lost")
 	}
 }
+
+func TestUniCounter(t *testing.T) {
+	text, err := NewFromFile(testFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, unique := text.UniCounter()
+
+	if count != len(unique) {
+		t.Fatal("Error in calculating the quantity")
+	}
+}

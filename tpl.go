@@ -65,5 +65,4 @@ func (t *Text) SpecCharRemover(mask string) {
 	for i, word := range t.Text {
 		t.Text[i] = re.ReplaceAllString(word, "")
 	}
-	// TODO: Removing only necessary characters
 }
