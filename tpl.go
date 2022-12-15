@@ -2,6 +2,9 @@ package tpl
 
 import (
 	"errors"
+	"fmt"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -9,6 +12,8 @@ type Text struct {
 	Text []string
 }
 
+// Gets a string, splits it into words (any whitespace characters).
+// Returns the Text structure with the Text field as a list of strings consisting of words.
 func NewFromString(s string) (*Text, error) {
 	t := &Text{
 		Text: strings.Fields(s),
@@ -23,8 +28,17 @@ func NewFromString(s string) (*Text, error) {
 	return t, nil
 }
 
+// Gets the path to the file, creates its abstract representation, returns the NewFromString function.
 func NewFromFile(file string) (*Text, error) {
-	s := file // TODO: Getting text from a file
+	filePath, err := filepath.Abs(file)
+	if err != nil {
+		return nil, errors.New("Error! Incorrect path.")
+	}
 
-	return NewFromString(s)
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("Error when reading a file: %v", err)
+	}
+
+	return NewFromString(string(data))
 }
