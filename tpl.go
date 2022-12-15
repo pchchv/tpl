@@ -74,9 +74,9 @@ func (t *Text) UniCounter() (c int, u []string) {
 	}
 
 	text.SpecCharRemover("all")
-	// TODO: Reducing all words to lowercase
+	text.ToLowercase()
 
-	for _, word := range t.Text {
+	for _, word := range text.Text {
 		i := sort.Search(len(u), func(i int) bool { return word <= u[i] })
 		if i < len(u) && u[i] == word {
 			continue
