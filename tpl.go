@@ -88,3 +88,9 @@ func (t *Text) UniCounter() (c int, u []string) {
 
 	return
 }
+
+func (t *Text) ToLowercase() {
+	for i, word := range t.Text {
+		t.Text[i] = strings.ToLower(word)
+	}
+}
