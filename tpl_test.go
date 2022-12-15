@@ -59,7 +59,7 @@ func TestNewFromFile(t *testing.T) {
 	}
 }
 
-func TestModifier(t *testing.T) {
+func TestSpecCharRemover(t *testing.T) {
 	text, err := NewFromFile(testFile)
 	if err != nil {
 		t.Fatal(err)
@@ -67,7 +67,7 @@ func TestModifier(t *testing.T) {
 
 	textLength := len(text.Text)
 
-	text.Modifier()
+	text.SpecCharRemover()
 
 	for _, word := range text.Text {
 		for _, symbol := range punctuation {

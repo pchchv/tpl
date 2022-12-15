@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -41,4 +42,13 @@ func NewFromFile(file string) (*Text, error) {
 	}
 
 	return NewFromString(string(data))
+}
+
+// Removes special characters from the text.
+func (t *Text) SpecCharRemover() {
+	re := regexp.MustCompile(`[[:punct:]]`)
+	for i, word := range t.Text {
+		t.Text[i] = re.ReplaceAllString(word, "")
+	}
+	// TODO: Removing only necessary characters
 }
