@@ -2,6 +2,7 @@ package tpl
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -13,6 +14,8 @@ const (
 
 	testFile = "./testText.txt"
 )
+
+var punctuation = strings.Split("!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~\\", "")
 
 func TestNewFromSting(t *testing.T) {
 	text, err := NewFromString(testString)
@@ -53,5 +56,22 @@ func TestNewFromFile(t *testing.T) {
 
 	if len(text.Text) <= 1 {
 		t.Fatal("Text split error")
+	}
+}
+
+func TestModifier(t *testing.T) {
+	text, err := NewFromFile(testFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	text.Modifier()
+
+	for _, word := range text.Text {
+		for _, symbol := range punctuation {
+			if strings.Contains(word, symbol) {
+				t.Fatal("The string contains a punctuation symbol")
+			}
+		}
 	}
 }
