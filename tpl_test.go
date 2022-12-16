@@ -65,3 +65,20 @@ func TestToLowercase(t *testing.T) {
 		t.Fatal("The word reductions didn't work.")
 	}
 }
+
+func TestBuild(t *testing.T) {
+	text, err := Split(testString)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	stringText := Build(text)
+
+	if len(stringText) == 0 {
+		t.Fatal("Build error. Empty string in result")
+	}
+
+	if len(testString) < len(stringText) {
+		t.Fatal("Build Error. testString is shorter than the result")
+	}
+}
