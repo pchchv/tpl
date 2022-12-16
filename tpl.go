@@ -2,51 +2,30 @@ package tpl
 
 import (
 	"errors"
-	"fmt"
-	"os"
-	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
 )
 
-type Text struct {
-	Text []string
-}
-
-// Gets a string, splits it into words (any whitespace characters).
-// Returns the Text structure with the Text field as a list of strings consisting of words.
-func NewFromString(s string) (*Text, error) {
-	t := &Text{
-		Text: strings.Fields(s),
+// Splits the string around each instance of one or more consecutive white space characters,
+// as defined by unicode.IsSpace,
+// returning a slice of substrings or an empty slice if s contains only white space.
+func Split(t string) ([]string, error) {
+	if len(t) == 0 {
+		return nil, errors.New("Error! Empty string.")
 	}
 
-	if len(t.Text) == 1 {
-		return nil, errors.New("Error! Expected: text, received: word.")
-	} else if len(t.Text) == 0 {
-		return nil, errors.New("Error! Expected: text, received: empty string.")
+	text := strings.Fields(string(t))
+
+	if len(text) == 0 {
+		return nil, errors.New("Error! String contains only white space.")
 	}
 
-	return t, nil
-}
-
-// Gets the path to the file, creates its abstract representation, returns the NewFromString function.
-func NewFromFile(file string) (*Text, error) {
-	filePath, err := filepath.Abs(file)
-	if err != nil {
-		return nil, errors.New("Error! Incorrect path.")
-	}
-
-	data, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, fmt.Errorf("Error when reading a file: %v", err)
-	}
-
-	return NewFromString(string(data))
+	return text, nil
 }
 
 // Removes special characters from the text.
-func (t *Text) SpecCharRemover(mask string) {
+func SpecCharRemover(text []string, mask string) []string {
 	var re *regexp.Regexp
 	switch mask {
 	case "all":
@@ -63,20 +42,26 @@ func (t *Text) SpecCharRemover(mask string) {
 		// TODO -
 	}
 
-	for i, word := range t.Text {
-		t.Text[i] = re.ReplaceAllString(word, "")
+	for i, word := range text {
+		text[i] = re.ReplaceAllString(word, "")
 	}
+
+	return text
 }
 
-func (t *Text) UniCounter() (c int, u []string) {
-	text := &Text{
-		Text: t.Text,
+func ToLowercase(text []string) []string {
+	for i, word := range text {
+		text[i] = strings.ToLower(word)
 	}
 
-	text.SpecCharRemover("all")
-	text.ToLowercase()
+	return text
+}
 
-	for _, word := range text.Text {
+func UniCounter(text []string) (c int, u []string) {
+	text = SpecCharRemover(text, "all")
+	text = ToLowercase(text)
+
+	for _, word := range text {
 		i := sort.Search(len(u), func(i int) bool { return word <= u[i] })
 		if i < len(u) && u[i] == word {
 			continue
@@ -87,10 +72,4 @@ func (t *Text) UniCounter() (c int, u []string) {
 	}
 
 	return
-}
-
-func (t *Text) ToLowercase() {
-	for i, word := range t.Text {
-		t.Text[i] = strings.ToLower(word)
-	}
 }
