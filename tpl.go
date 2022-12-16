@@ -24,7 +24,9 @@ func Split(t string) ([]string, error) {
 	return text, nil
 }
 
-// Removes special characters from the text.
+// Gets an array of strings and a special characters mask,
+// removes special characters from each string.
+// Returns the modified array
 func SpecCharRemover(text []string, mask string) []string {
 	var re *regexp.Regexp
 	switch mask {
@@ -49,6 +51,8 @@ func SpecCharRemover(text []string, mask string) []string {
 	return text
 }
 
+// Gets an array of strings, converts all strings to lowercase.
+// Returns the modified array
 func ToLowercase(text []string) []string {
 	for i, word := range text {
 		text[i] = strings.ToLower(word)
@@ -57,6 +61,8 @@ func ToLowercase(text []string) []string {
 	return text
 }
 
+// Gets an array of strings, counts the number of unique strings.
+// Returns the number of unique strings and an array of them.
 func UniCounter(text []string) (c int, u []string) {
 	text = SpecCharRemover(text, "all")
 	text = ToLowercase(text)
@@ -74,6 +80,8 @@ func UniCounter(text []string) (c int, u []string) {
 	return
 }
 
+// Gets an array of strings, joins them separated by spaces.
+// Returns a string
 func Build(t []string) string {
 	var text string
 
