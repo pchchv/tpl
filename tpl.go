@@ -73,3 +73,13 @@ func UniCounter(text []string) (c int, u []string) {
 
 	return
 }
+
+func Build(t []string) string {
+	var text string
+
+	for _, word := range t {
+		text += word
+	}
+
+	return text
+}
