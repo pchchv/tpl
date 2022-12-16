@@ -1,119 +1,67 @@
 package tpl
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
 
-const (
-	testString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-		"Etiam ac convallis risus. Ut accumsan urna sem, in placerat mi luctus a. " +
-		"Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; " +
-		"Morbi eu massa in nulla rutrum maximus vitae id massa. Aenean venenatis, nunc nec cursus porta, ex lorem egestas erat, ut."
-
-	testFile = "./testText.txt"
-)
+const testString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+	"Etiam ac convallis risus. Ut accumsan urna sem, in placerat mi luctus a. " +
+	"Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; " +
+	"Morbi eu massa in nulla rutrum maximus vitae id massa. Aenean venenatis, nunc nec cursus porta, ex lorem egestas erat, ut."
 
 var punctuation = strings.Split("!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~\\", "")
 
-func TestNewFromSting(t *testing.T) {
-	text, err := NewFromString(testString)
+func TestSplit(t *testing.T) {
+	text, err := Split(testString)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if fmt.Sprintf("%T", text) != "*tpl.Text" {
-		t.Fatal("Incorrect type")
-	}
-
-	if len(text.Text) <= 1 {
-		t.Fatal("Text split error")
-	}
-}
-
-func TestWrongNewFromString(t *testing.T) {
-	_, err := NewFromString("Hello")
-	if err == nil {
-		t.Fatal("No error when getting a word")
-	}
-
-	_, err = NewFromString("")
-	if err == nil {
-		t.Fatal("No error when getting a empty input")
-	}
-}
-
-func TestNewFromFile(t *testing.T) {
-	text, err := NewFromFile(testFile)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if fmt.Sprintf("%T", text) != "*tpl.Text" {
-		t.Fatal("Incorrect type")
-	}
-
-	if len(text.Text) <= 1 {
+	if len(text) <= 1 {
 		t.Fatal("Text split error")
 	}
 }
 
 func TestSpecCharRemover(t *testing.T) {
-	text, err := NewFromFile(testFile)
+	text, err := Split(testString)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	textLength := len(text.Text)
+	text = SpecCharRemover(text, "all")
 
-	text.SpecCharRemover("all")
-
-	for _, word := range text.Text {
+	for _, word := range text {
 		for _, symbol := range punctuation {
 			if strings.Contains(word, symbol) {
 				t.Fatal("The string contains a punctuation symbol")
 			}
 		}
 	}
-
-	if textLength != len(text.Text) {
-		t.Fatal("The words are lost")
-	}
 }
 
 func TestUniCounter(t *testing.T) {
-	text, err := NewFromFile(testFile)
+	text, err := Split(testString)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	tt := text.Text
-
-	count, unique := text.UniCounter()
+	count, unique := UniCounter(text)
 
 	if count != len(unique) {
 		t.Fatal("Error in calculating the quantity.")
 	}
-
-	if len(text.Text) == len(unique) {
-		t.Fatal("Processing error!")
-	}
-
-	if len(tt) != len(text.Text) || tt[0] != text.Text[0] {
-		t.Fatal("Processing error! Changing the main text.")
-	}
 }
 
 func TestToLowercase(t *testing.T) {
-	text, err := NewFromFile(testFile)
+	text, err := Split(testString)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	text.ToLowercase()
+	ToLowercase(text)
 
-	if text.Text[0] == "Lorem" {
+	if text[0] == "Lorem" {
 		t.Fatal("The word reductions didn't work.")
 	}
 }
