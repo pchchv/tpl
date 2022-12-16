@@ -78,7 +78,7 @@ func TestBuild(t *testing.T) {
 		t.Fatal("Build error. Empty string in result")
 	}
 
-	if len(testString) < len(stringText) {
-		t.Fatal("Build Error. testString is shorter than the result")
+	if testString != stringText {
+		t.Fatal("Build Error. testString is different from result string")
 	}
 }

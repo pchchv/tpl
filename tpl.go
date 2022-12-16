@@ -86,8 +86,8 @@ func Build(t []string) string {
 	var text string
 
 	for _, word := range t {
-		text += word
+		text += word + " "
 	}
 
-	return text
+	return strings.TrimSpace(text)
 }
