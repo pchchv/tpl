@@ -33,7 +33,7 @@ func SpecCharRemover(text []string, mask string) ([]string, error) {
 	case "all":
 		re = regexp.MustCompile(`[[:punct:]]`)
 	case "quotes":
-		// TODO: “”‘«»„“
+		re = regexp.MustCompile(`[“”‘«»„“]`)
 	case "exclamation_mark":
 		re = regexp.MustCompile(`!`)
 	case "question_mark":
