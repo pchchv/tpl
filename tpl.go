@@ -39,7 +39,7 @@ func SpecCharRemover(text []string, mask string) ([]string, error) {
 	case "question_mark":
 		re = regexp.MustCompile(`\?`)
 	case "plus":
-		// TODO +
+		re = regexp.MustCompile(`\+`)
 	case "minus":
 		re = regexp.MustCompile(`-`)
 	default:
