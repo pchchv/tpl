@@ -29,7 +29,10 @@ func TestSpecCharRemoverAll(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	text = SpecCharRemover(text, "all")
+	text, err = SpecCharRemover(text, "all")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	for _, word := range text {
 		for _, symbol := range punctuation {
@@ -40,13 +43,28 @@ func TestSpecCharRemoverAll(t *testing.T) {
 	}
 }
 
+func TestSpecCharRemoverWrongInput(t *testing.T) {
+	text, err := Split(testString)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = SpecCharRemover(text, "test")
+	if err == nil {
+		t.Fatal("Attempting to return a result with incorrect input")
+	}
+}
+
 func TestSpecCharRemoverExclamation(t *testing.T) {
 	text, err := Split(testString)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	text = SpecCharRemover(text, "exclamation_mark")
+	text, err = SpecCharRemover(text, "exclamation_mark")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	for _, word := range text {
 		if strings.Contains(word, "!") {
