@@ -73,6 +73,24 @@ func TestSpecCharRemoverExclamation(t *testing.T) {
 	}
 }
 
+func TestSpecCharRemoverQuestion(t *testing.T) {
+	text, err := Split(testString)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	text, err = SpecCharRemover(text, "question_mark")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, word := range text {
+		if strings.Contains(word, "?") {
+			t.Fatal("The string contains a exclamation mark")
+		}
+	}
+}
+
 func TestSpecCharRemoverMinus(t *testing.T) {
 	text, err := Split(testString)
 	if err != nil {

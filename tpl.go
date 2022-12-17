@@ -37,7 +37,7 @@ func SpecCharRemover(text []string, mask string) ([]string, error) {
 	case "exclamation_mark":
 		re = regexp.MustCompile(`!`)
 	case "question_mark":
-		// TODO ?
+		re = regexp.MustCompile(`\?`)
 	case "plus":
 		// TODO +
 	case "minus":
