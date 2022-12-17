@@ -73,6 +73,24 @@ func TestSpecCharRemoverExclamation(t *testing.T) {
 	}
 }
 
+func TestSpecCharRemoverMinus(t *testing.T) {
+	text, err := Split(testString)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	text, err = SpecCharRemover(text, "minus")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, word := range text {
+		if strings.Contains(word, "-") {
+			t.Fatal("The string contains a minus")
+		}
+	}
+}
+
 func TestUniCounter(t *testing.T) {
 	text, err := Split(testString)
 	if err != nil {
