@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-const testString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+const testString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit! " +
 	"Etiam ac convallis risus. Ut accumsan urna sem, in placerat mi luctus a. " +
 	"Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; " +
 	"Morbi eu massa in nulla rutrum maximus vitae id massa. Aenean venenatis, nunc nec cursus porta, ex lorem egestas erat, ut."
@@ -23,7 +23,7 @@ func TestSplit(t *testing.T) {
 	}
 }
 
-func TestSpecCharRemover(t *testing.T) {
+func TestSpecCharRemoverAll(t *testing.T) {
 	text, err := Split(testString)
 	if err != nil {
 		t.Fatal(err)
@@ -36,6 +36,21 @@ func TestSpecCharRemover(t *testing.T) {
 			if strings.Contains(word, symbol) {
 				t.Fatal("The string contains a punctuation symbol")
 			}
+		}
+	}
+}
+
+func TestSpecCharRemoverExclamation(t *testing.T) {
+	text, err := Split(testString)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	text = SpecCharRemover(text, "exclamation_mark")
+
+	for _, word := range text {
+		if strings.Contains(word, "!") {
+			t.Fatal("The string contains a exclamation mark")
 		}
 	}
 }
