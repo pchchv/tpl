@@ -42,6 +42,8 @@ func SpecCharRemover(text []string, mask string) ([]string, error) {
 		re = regexp.MustCompile(`\+`)
 	case "minus":
 		re = regexp.MustCompile(`-`)
+	case "brackets":
+		re = regexp.MustCompile(`[\(\)\{\}\[\]]`)
 	default:
 		return nil, errors.New("Enter the correct character set")
 
