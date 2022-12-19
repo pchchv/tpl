@@ -5,10 +5,10 @@ import (
 	"testing"
 )
 
-const testString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit! " +
+const testString = "Lorem [ipsum dolor sit] amet, consectetur adipiscing elit! " +
 	"«Etiam ac convallis risus. Ut accumsan urna sem, in placerat mi luctus a.» " +
-	"Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; " +
-	"Morbi eu massa in nulla rutrum maximus vitae id massa. Aenean venenatis, nunc nec cursus porta, ex lorem egestas -erat, +ut."
+	"Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia {curae}; " +
+	"Morbi eu massa in nulla rutrum maximus vitae id massa. Aenean venenatis, (nunc nec cursus porta), ex lorem egestas -erat, +ut."
 
 var punctuation = strings.Split("!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~\\", "")
 
@@ -141,6 +141,26 @@ func TestSpecCharRemoverQuotes(t *testing.T) {
 	for _, word := range text {
 		if strings.Contains(word, "«") || strings.Contains(word, "»") {
 			t.Fatal("The string contains a quotes")
+		}
+	}
+}
+
+func TestSpecCharRemoverBrackets(t *testing.T) {
+	text, err := Split(testString)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	text, err = SpecCharRemover(text, "brackets")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, word := range text {
+		if strings.Contains(word, "(") || strings.Contains(word, ")") ||
+		strings.Contains(word, "[")  || strings.Contains(word, "]") ||
+		strings.Contains(word, "{") || strings.Contains(word, "}") {
+			t.Fatal("The string contains a brackets")
 		}
 	}
 }
