@@ -27,6 +27,14 @@ func Split(t string) ([]string, error) {
 // Gets an array of strings and a special characters mask,
 // removes special characters from each string.
 // Returns the modified array
+// Mask options:
+//    "all" - Remove all special characters (!"#$%&'()*+,-./:;<=>?@[]^_`{|}~\)
+//    "quotes" - Remove quotes (”‘«»„)
+//    "exclamation_mark" - Remove exclamation marks (!)
+//    "question_mark" - Remove question marks (?)
+//    "plus" - Remove pluses (+)
+//    "minus" - Remove minuses (-)
+//    "brackets" - Remove brackets ((){}[])
 func SpecCharRemover(text []string, mask string) ([]string, error) {
 	var re *regexp.Regexp
 	switch mask {
